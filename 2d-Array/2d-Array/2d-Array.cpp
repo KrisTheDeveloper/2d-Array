@@ -5,25 +5,91 @@
 #include <iostream>
 #include <vector>
 
+
 using namespace std;
 
 int hourglassSum(vector<vector<int>> arr) 
 {
-	vector<int> sum(4);
 	
-	int endSumIter = 0;
-	for (vector<vector<int>>::iterator rowIter = arr.begin(); rowIter != arr.end(); rowIter++)
+	
+	int currentSum = 0;
+	int maxSum = 0;
+
+	int homeRow = 0;
+	int homeCol = 0;
+	
+	//Won't work this way. Will need to change both forloops to standard int::iterators with arr.size(row) or arr.size[0](column) being the max.
+	//will then need to keep track of 0 location of both row and column and capture 1 hour glass at a time only overwriting sum if th current hourglass is greater than the previous one
+	//there will be 16 hourglass checks but numbers will be iterated more than once. Around twice for most of the numbers but this will be the best way without an algorithm. 
+	//this process is better. I need to mess with it though to rid defects.
+	for (int rowIter = homeRow; rowIter != arr.size(); )
 	{
-		int currentLocation = 0;
+		
+		for (int colIter = homeCol; colIter != arr[0].size(); colIter++)
+		{
+			if (!(homeCol < (arr[0].size() - 2)))
+			{
+				homeRow++;
+				rowIter = homeRow;
+				homeCol = 0;
+				break;
+			}
+			else if (!(rowIter < (homeRow + 3)))
+			{
+				homeCol++;
+				rowIter = homeRow;
+				break;
+			}
+			else if (rowIter == (homeRow + 1))
+			{
+				if (colIter == (homeCol + 1))
+				{
+					cout << arr[rowIter][colIter] << endl;
+					currentSum += arr[rowIter][colIter];
+					homeRow++;
+					rowIter = homeRow;
+					break;
+				}
+				continue;				
+			}
+			else if (colIter < (homeCol + 3) && rowIter != (homeRow +1))
+			{
+				cout << arr[rowIter][colIter] << endl;
+				currentSum += arr[rowIter][colIter];
+				continue;
+			}
+
+			//if (rowIter != (homeRow + 1))
+			//{				
+				rowIter++;
+			//}
+
+			
+		}
+		
+	}
+	cout << "first sum = " << currentSum;
+	/*
+	for (vector<vector<int>>::iterator rowIter = arr.begin(); rowIter != arr.end(); rowIter++)
+	{		
+		/*if (rowIndex % 2 > 0)
+		{
+			cout << "Odd row";
+			flagSkipRow = true;
+		}
+		else
+			flagSkipRow = false;
+		
+		int columnIndex = 0;
 		for(vector<int>::iterator colIter = rowIter->begin(); colIter != rowIter->end(); colIter++)
 		{	
 			//3on - 4off - 1on - 4off - 3on
 			int currentNum = *colIter;	
 
-			//while 
+			
 
 			//going to simplify this logic
-			switch (currentLocation)
+			switch (columnIndex)
 			{
 				case 0:
 					sum[0] += currentNum;
@@ -50,11 +116,12 @@ int hourglassSum(vector<vector<int>> arr)
 					sum[3] += currentNum;
 			}
 
-			currentLocation += 1;
+			columnIndex++;
 			
 		}
+		rowIndex++;
 	}
-
+	*/
 	return 0;
 }
 
@@ -75,14 +142,3 @@ int main()
 
     //std::cout << "Hello World!\n"; 
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
